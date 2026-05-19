@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SnowPro Core — Practice Quiz</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- Top Navigation -->
+<nav class="topnav">
+  <a class="topnav-logo" href="#" id="nav-home-btn">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="20" r="20" fill="white" fill-opacity="0.15"/>
+      <path d="M20 8 L20 32 M8 20 L32 20 M11.5 11.5 L28.5 28.5 M28.5 11.5 L11.5 28.5" stroke="#29B5E8" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="20" cy="20" r="4" fill="#29B5E8"/>
+    </svg>
+    <span id="nav-cert-title">SnowPro</span>&nbsp;<span id="nav-cert-subtitle">Quiz</span>
+  </a>
+  <div class="topnav-right">
+    <button class="topnav-btn" id="nav-home-shortcut-btn" style="display:none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      All Certs
+    </button>
+    <button class="topnav-btn" id="nav-reports-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Reports
+      <span class="topnav-badge hidden" id="report-count-badge"></span>
+    </button>
+    <button class="topnav-btn" id="nav-history-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+      History
+    </button>
+  </div>
+</nav>
+
+<div class="main-wrap">
+
+  <!-- ══════════════ CERT PICKER SCREEN ══════════════ -->
+  <div class="screen certpicker-screen active" id="screen-certpicker">
+    <div class="certpicker-inner">
+      <div class="certpicker-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+        </svg>
+      </div>
+      <h1>SnowPro<sup>&reg;</sup> Certification Practice Quiz</h1>
+      <p class="certpicker-subtitle">Select the certification you want to practice</p>
+      <div id="cert-picker-cards" class="cert-picker-cards"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════ HOME SCREEN ══════════════ -->
+  <div class="screen home-screen" id="screen-home">
+    <div class="home-card">
+      <div class="home-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+        </svg>
+      </div>
+      <h1 id="home-title">SnowPro<sup>®</sup> Practice Quiz</h1>
+      <p class="subtitle"><span id="subtitle-cert-label"></span> Certification Preparation &mdash; <span id="subtitle-total-q">500</span> questions across <span id="subtitle-domains-count">6</span> domains</p>
+
+      <div class="home-stats">
+        <div class="stat-box">
+          <div class="stat-val" id="stat-total-q">200</div>
+          <div class="stat-lbl">Total Questions</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="stat-sessions">0</div>
+          <div class="stat-lbl">Sessions Played</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="stat-best">—</div>
+          <div class="stat-lbl">Best Score</div>
+        </div>
+      </div>
+
+      <div class="home-actions">
+        <button class="btn btn-primary" id="btn-start-quiz" style="font-size:16px;padding:14px 28px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Start Practice Quiz
+        </button>
+        <button class="btn btn-secondary" id="btn-view-history">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          View History
+        </button>
+      </div>
+
+      <!-- Domain weights info -->
+      <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border);">
+        <p style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Exam Domain Weights</p>
+        <div id="home-domain-preview"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SETUP SCREEN ══════════════ -->
+  <div class="screen setup-screen" id="screen-setup">
+    <div class="setup-card">
+      <h2>Configure Your Quiz</h2>
+
+      <!-- Mode -->
+      <div class="form-group">
+        <label class="form-label">Quiz Mode</label>
+        <div class="mode-grid">
+          <div class="mode-card exam selected" id="mode-exam" data-mode="exam">
+            <div class="mode-card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h3>Exam Mode</h3>
+            <p>Timed, auto-submits at 0:00. Answers revealed only at the end.</p>
+          </div>
+          <div class="mode-card study" id="mode-study" data-mode="study">
+            <div class="mode-card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <h3>Study Mode</h3>
+            <p>Untimed (stopwatch only). See explanations immediately after each answer.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question count -->
+      <div class="form-group">
+        <label class="form-label">Number of Questions</label>
+        <div class="slider-wrap">
+          <input type="range" class="slider-input" id="q-count-slider" min="5" max="100" value="25" step="5" />
+          <div class="slider-val" id="q-count-val">25</div>
+        </div>
+        <p class="form-hint">Real exam: 100 questions &bull; Quick practice: 10–25 &bull; Full mock: 100</p>
+      </div>
+
+      <!-- Time limit (only exam mode) -->
+      <div class="form-group" id="time-group">
+        <label class="form-label">Time Limit (minutes)</label>
+        <div class="slider-wrap">
+          <input type="range" class="slider-input" id="time-slider" min="5" max="120" value="29" step="5" />
+          <div class="slider-val" id="time-val">29</div>
+        </div>
+        <p class="form-hint">Real exam: 115 min for 100 questions &bull; ~1.15 min/question</p>
+      </div>
+
+      <!-- Domain breakdown preview -->
+      <div class="form-group">
+        <label class="form-label">Question Pool</label>
+        <label class="toggle-row">
+          <input type="checkbox" id="unseen-toggle" />
+          <span class="toggle-label">Prioritize unseen questions</span>
+        </label>
+        <p class="form-hint" id="unseen-hint"></p>
+      </div>
+
+      <!-- Domain breakdown preview -->
+      <div class="form-group">
+        <div class="domain-preview">
+          <div class="domain-preview-title">Domain Distribution</div>
+          <div id="setup-domain-preview"></div>
+        </div>
+      </div>
+
+      <div class="setup-footer">
+        <button class="btn btn-secondary" id="btn-setup-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Back
+        </button>
+        <button class="btn btn-primary" id="btn-start-quiz-confirm">
+          Start Quiz
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ QUIZ SCREEN ══════════════ -->
+  <div class="screen quiz-screen" id="screen-quiz">
+
+    <!-- Sidebar: question grid -->
+    <aside class="quiz-sidebar">
+      <div class="sidebar-header">
+        <h3>Questions</h3>
+        <div class="sidebar-legend">
+          <div class="legend-item"><div class="legend-dot unanswered"></div> Unanswered</div>
+          <div class="legend-item"><div class="legend-dot answered"></div> Answered</div>
+          <div class="legend-item"><div class="legend-dot flagged"></div> Flagged</div>
+          <div class="legend-item"><div class="legend-dot current"></div> Current</div>
+        </div>
+      </div>
+      <div class="question-grid" id="question-grid"></div>
+      <div class="sidebar-footer">
+        <button class="btn btn-danger btn-sm" id="btn-submit-quiz">Submit Quiz</button>
+      </div>
+    </aside>
+
+    <!-- Header: progress + timer -->
+    <header class="quiz-header">
+      <div class="quiz-progress-wrap">
+        <div class="quiz-progress-label" id="quiz-progress-label">Question 1 of 25</div>
+        <div class="progress-bar-outer">
+          <div class="progress-bar-inner" id="quiz-progress-bar" style="width:4%"></div>
+        </div>
+      </div>
+      <div class="quiz-timer" id="quiz-timer">
+        <div class="timer-label" id="timer-label">Time Left</div>
+        <div class="timer-val" id="timer-val">29:00</div>
+      </div>
+    </header>
+
+    <!-- Main: question + options -->
+    <main class="quiz-main" id="quiz-main">
+      <div class="question-card" id="question-card">
+
+        <div class="question-meta">
+          <span class="q-badge" id="q-domain-badge">Domain 1</span>
+          <span class="q-type-badge" id="q-type-badge">Single Answer</span>
+          <span class="q-scenario-badge hidden" id="q-scenario-badge">Scenario</span>
+          <span class="question-number" id="question-number">Q1</span>
+        </div>
+
+        <div class="question-text" id="question-text">Loading…</div>
+
+        <div class="options-list" id="options-list"></div>
+
+        <!-- Study mode feedback (hidden until answered) -->
+        <div class="answer-feedback" id="answer-feedback">
+          <div class="feedback-title" id="feedback-title"></div>
+          <div class="feedback-explanation" id="feedback-explanation"></div>
+          <div class="feedback-quote" id="feedback-quote"></div>
+          <div class="feedback-source" id="feedback-source"></div>
+        </div>
+
+        <div class="question-actions">
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="flag-btn" id="flag-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+              Flag for Review
+            </button>
+            <button class="report-btn" id="report-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Report Issue
+            </button>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <span class="q-type-badge" id="q-select-hint" style="display:none"></span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer: navigation -->
+    <footer class="quiz-footer">
+      <div class="quiz-nav">
+        <button class="btn btn-secondary btn-sm" id="btn-quiz-home" title="Back to Home">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          All Certs
+        </button>
+        <button class="btn btn-secondary btn-sm" id="btn-prev">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Previous
+        </button>
+        <button class="btn btn-primary btn-sm" id="btn-next">
+          Next
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span style="font-size:12px;color:var(--text-secondary)" id="answered-count">0 answered</span>
+        <span style="font-size:12px;color:var(--flagged)" id="flagged-count" class="hidden">0 flagged</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ══════════════ RESULTS SCREEN ══════════════ -->
+  <div class="screen results-screen" id="screen-results">
+    <div class="results-card">
+      <div class="results-header">
+        <div class="score-ring">
+          <svg width="140" height="140" viewBox="0 0 140 140">
+            <circle class="score-ring-bg" cx="70" cy="70" r="60"/>
+            <circle class="score-ring-fill" id="score-ring-circle" cx="70" cy="70" r="60"
+              stroke-dasharray="377"
+              stroke-dashoffset="377"/>
+          </svg>
+          <div class="score-text">
+            <div class="score-pct" id="score-pct">0%</div>
+            <div class="score-pct-label" id="score-fraction">0/0</div>
+          </div>
+        </div>
+        <div class="result-verdict" id="result-verdict">—</div>
+        <div class="result-subtitle" id="result-subtitle"></div>
+      </div>
+
+      <div class="results-stats">
+        <div class="results-stat">
+          <div class="rs-val" id="rs-correct">0</div>
+          <div class="rs-lbl">Correct</div>
+        </div>
+        <div class="results-stat">
+          <div class="rs-val" id="rs-incorrect">0</div>
+          <div class="rs-lbl">Incorrect</div>
+        </div>
+        <div class="results-stat">
+          <div class="rs-val" id="rs-time">—</div>
+          <div class="rs-lbl">Time Used</div>
+        </div>
+      </div>
+
+      <div class="domain-breakdown">
+        <h3>Domain Breakdown</h3>
+        <div id="domain-breakdown-list"></div>
+      </div>
+
+      <div class="results-actions">
+        <button class="btn btn-primary" id="btn-review-answers">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Review Answers
+        </button>
+        <button class="btn btn-secondary" id="btn-new-quiz">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.93"/></svg>
+          New Quiz
+        </button>
+        <button class="btn btn-secondary" id="btn-results-home">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ REVIEW SCREEN ══════════════ -->
+  <div class="screen review-screen" id="screen-review">
+    <div class="review-header">
+      <button class="btn btn-secondary btn-sm" id="btn-review-back">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Results
+      </button>
+      <h2>Answer Review</h2>
+      <div class="review-filter">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn correct-filter" data-filter="correct">Correct</button>
+        <button class="filter-btn incorrect-filter" data-filter="incorrect">Incorrect</button>
+        <button class="filter-btn" data-filter="flagged">Flagged</button>
+      </div>
+    </div>
+    <div class="review-list" id="review-list"></div>
+  </div>
+
+  <!-- ══════════════ REPORTED SCREEN ══════════════ -->
+  <div class="screen reported-screen" id="screen-reported">
+    <div class="reported-header">
+      <button class="btn btn-secondary btn-sm" id="btn-reported-back">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <h2>Question Reports</h2>
+      <button class="btn btn-secondary btn-sm" id="btn-reported-clear" style="margin-left:auto">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        Clear All
+      </button>
+    </div>
+    <div class="reported-empty hidden" id="reported-empty">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3;margin-bottom:12px"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <p>No questions reported yet. Use the "Report Issue" button during a quiz or review.</p>
+    </div>
+    <div class="reported-list" id="reported-list"></div>
+    <div class="reported-footer" id="reported-footer">
+      <button class="btn btn-primary" id="btn-generate-email" disabled>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy Report to Clipboard
+      </button>
+    </div>
+  </div>
+
+  <!-- ══════════════ HISTORY SCREEN ══════════════ -->
+  <div class="screen history-screen" id="screen-history">
+    <div class="history-header">
+      <button class="btn btn-secondary btn-sm" id="btn-history-back">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <h2>Session History</h2>
+      <button class="btn btn-danger btn-sm" id="btn-clear-history" style="margin-left:auto">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        Clear All
+      </button>
+    </div>
+    <div class="history-empty hidden" id="history-empty">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3;margin-bottom:12px"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      <p>No sessions yet. Start a quiz to see your history here.</p>
+    </div>
+    <div class="history-list" id="history-list"></div>
+  </div>
+
+</div>
+
+<!-- ══ Submit Confirm Modal ══ -->
+<div class="modal-overlay" id="submit-modal">
+  <div class="modal-box">
+    <h3 id="modal-title">Submit Quiz?</h3>
+    <p id="modal-body">You have unanswered questions. Are you sure you want to submit?</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary btn-sm" id="modal-cancel">Cancel</button>
+      <button class="btn btn-primary btn-sm" id="modal-confirm">Submit</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Report Text Modal ══ -->
+<div class="modal-overlay" id="report-text-modal">
+  <div class="modal-box report-modal-box">
+    <h3>Copy Report</h3>
+    <p>Copy the text below and paste it into a new email.</p>
+    <textarea id="report-modal-body" class="report-modal-textarea" readonly></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-secondary btn-sm" id="report-modal-close">Close</button>
+      <button class="btn btn-primary btn-sm" id="report-modal-copy">Copy to Clipboard</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Toast ══ -->
+<div class="toast" id="toast"></div>
+
+<!-- Data -->
+<script src="data/ara_c01.js"></script>
+<script src="data/dsa_c03.js"></script>
+<script src="data/cof_c02.js"></script>
+<script src="data/cof_c03.js"></script>
+<script src="data/sea_c01.js"></script>
+<!-- App Logic -->
+<script src="app.js"></script>
+</body>
+</html>
